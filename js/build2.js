@@ -180,7 +180,7 @@ function drawInfo() {
   let w;
   con.fillStyle = 'white';
   let str = 'NEXT';
-  con.font = '40px "Turret Road  light"';
+  con.font = '40px "Turret Road light"';
   con.fillText(str, 410, 90);
 
   str = 'SCORE';
@@ -218,7 +218,7 @@ function drawInfo() {
     con.fillText(str, offset_x + x, y);
 
     bgm.pause();
-    if (getVoiceVolumeByScore(score) < 0) playVoice();
+    if (getVoiceVolumeByScore(score) <= max_lv) playVoice();
     else {
       can.remove();
       const container = document.getElementById('container');

@@ -1,4 +1,3 @@
-
 const field_col = 10,
   field_row = 20,
   block_size = 30,
@@ -14,16 +13,7 @@ can.width = screen_w;
 can.height = screen_h;
 can.style.border = '4px solid #555';
 
-const tetro_colors = [
-  '#000',
-  '#6cf',
-  '#f92',
-  '#66f',
-  '#c5c',
-  '#fd2',
-  '#f44',
-  '#5b5'
-]
+const tetro_colors = ['#000', '#6cf', '#f92', '#66f', '#c5c', '#fd2', '#f44', '#5b5'];
 
 const tetro_types = [
   [],
@@ -69,7 +59,7 @@ const tetro_types = [
     [1, 1, 0, 0],
     [0, 0, 0, 0]
   ]
-]
+];
 
 const start_x = field_col / 2 - tetro_size / 2;
 const start_y = 0;
@@ -95,7 +85,7 @@ const init = () => {
 
 init();
 
-const drawBlock = (x, y ,c) => {
+const drawBlock = (x, y, c) => {
   let px = x * block_size,
     py = y * block_size;
   con.fillStyle = tetro_colors[c];
@@ -136,24 +126,20 @@ const drawAll = () => {
 drawAll();
 
 const checkMove = (mx, my, ntetro) => {
-  if(ntetro == undefined) ntetro = tetro;
+  if (ntetro == undefined) ntetro = tetro;
   for (let y = 0; y < tetro_size; y++) {
     for (let x = 0; x < tetro_size; x++) {
       if (ntetro[y][x]) {
         let nx = tetro_x + mx + x,
           ny = tetro_y + my + y;
-        if (ny < 0 ||
-            nx < 0 ||
-            ny >= field_row ||
-            nx >= field_col ||
-            field[ny][nx]) {
+        if (ny < 0 || nx < 0 || ny >= field_row || nx >= field_col || field[ny][nx]) {
           return false;
         }
       }
     }
   }
   return true;
-}
+};
 
 const rotate = () => {
   let ntetro = [];
@@ -164,42 +150,41 @@ const rotate = () => {
     }
   }
   return ntetro;
-}
+};
 
 const fixTetro = () => {
   for (let y = 0; y < tetro_size; y++) {
     for (let x = 0; x < tetro_size; x++) {
-      if(tetro[y][x]) {
+      if (tetro[y][x]) {
         field[tetro_y + y][tetro_x + x] = tetro_t;
       }
     }
   }
-}
+};
 
 const checkLine = () => {
   let linec = 0;
   for (let y = 0; y < field_row; y++) {
     let flag = true;
     for (let x = 0; x < field_col; x++) {
-      if (!field[y][x]){
+      if (!field[y][x]) {
         flag = false;
         break;
       }
     }
-    if(flag) {
+    if (flag) {
       linec++;
-      for(let ny = y; ny > 0; ny--) {
-        for(let nx = 0; nx < field_col; nx++) {
+      for (let ny = y; ny > 0; ny--) {
+        for (let nx = 0; nx < field_col; nx++) {
           field[ny][nx] = field[ny - 1][nx];
         }
       }
-
     }
   }
-}
+};
 
 const dropTetro = () => {
-  if(over) return;
+  if (over) return;
   if (checkMove(0, 1)) tetro_y++;
   else {
     fixTetro();
@@ -209,17 +194,17 @@ const dropTetro = () => {
     tetro_x = start_x;
     tetro_y = start_y;
 
-    if(!checkMove(0, 0)) {
+    if (!checkMove(0, 0)) {
       over = true;
     }
   }
   drawAll();
-}
+};
 
 setInterval(dropTetro, game_speed);
 
 onkeydown = (e) => {
-  if(over) return;
+  if (over) return;
   switch (e.code) {
     case 'ArrowUp':
       if (checkMove(0, -1)) tetro_y--;
@@ -235,8 +220,8 @@ onkeydown = (e) => {
       break;
     case 'Space':
       let ntetro = rotate();
-      if(checkMove(0, 0, ntetro)) tetro = ntetro;
+      if (checkMove(0, 0, ntetro)) tetro = ntetro;
       break;
   }
   drawAll();
-}
+};
