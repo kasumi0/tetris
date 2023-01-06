@@ -6,7 +6,6 @@ const field_col = 10,
   tetro_size = 4;
 let game_speed = 700,
   speed = 100;
-
 let can = document.getElementById('can'),
   con = can.getContext('2d');
 let pause = document.getElementById('pause');
