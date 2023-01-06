@@ -6,7 +6,6 @@ const field_col = 10,
   tetro_size = 4;
 let game_speed = 700,
   speed = 100;
-
 let can = document.getElementById('can'),
   con = can.getContext('2d');
 let pause = document.getElementById('pause');
@@ -77,9 +76,9 @@ se2 = new Audio('../se/se2.mp3');
 se3 = new Audio('../se/se3.mp3');
 
 let voices = [];
-for(let lv = 0; lv < 5; lv++) {
+for (let lv = 0; lv < 5; lv++) {
   voices[lv] = [];
-  for(vo = 0; vo < 3; vo++) {
+  for (vo = 0; vo < 3; vo++) {
     voices[lv][vo] = new Audio(`../se/voices/Lv${lv + 1}-${vo + 1}.mp3`);
   }
 }
@@ -128,9 +127,7 @@ function setTetro() {
 function drawBlock(x, y, c) {
   let px = offset_x + x * block_size,
     py = offset_y + y * block_size;
-  con.drawImage(blimage,
-    c * block_size, 0, block_size, block_size,
-    px, py, block_size, block_size);
+  con.drawImage(blimage, c * block_size, 0, block_size, block_size, px, py, block_size, block_size);
 }
 
 function drawAll() {
@@ -151,8 +148,7 @@ function drawAll() {
   }
 
   let plus = 0;
-  while (checkMove(0, plus + 1))
-    plus++;
+  while (checkMove(0, plus + 1)) plus++;
   for (let y = 0; y < tetro_size; y++) {
     for (let x = 0; x < tetro_size; x++) {
       if (tetro[y][x]) {
@@ -169,7 +165,7 @@ function drawAll() {
 
 function getVoiceVolumeByScore(score) {
   if (score < 2000) return 0;
-  const d = Math.pow(1500,2) - 4 * 500 * -score;
+  const d = Math.pow(1500, 2) - 4 * 500 * -score;
   const x1 = (-1500 + Math.sqrt(d)) / (2 * 500);
   return Math.floor(x1);
 }
@@ -184,7 +180,7 @@ function drawInfo() {
   let w;
   con.fillStyle = 'white';
   let str = 'NEXT';
-  con.font = '40px "Turret Road light"';
+  con.font = '40px "Turret Road  light"';
   con.fillText(str, 410, 90);
 
   str = 'SCORE';
@@ -205,7 +201,7 @@ function drawInfo() {
   con.font = '40px "Turret Road light"';
   con.fillText(str, 410, 525);
   lv = getVoiceVolumeByScore(score) + 1;
-  if(lv > max_lv + 1) str = 'Excellent!!';
+  if (lv > max_lv + 1) str = 'Excellent!!';
   else str = `${lv}`;
   w = con.measureText(str).width;
   con.fillText(str, 560 - w, 580);
@@ -222,30 +218,26 @@ function drawInfo() {
     con.fillText(str, offset_x + x, y);
 
     bgm.pause();
-    if(getVoiceVolumeByScore(score) < 0) playVoice();
+    if (getVoiceVolumeByScore(score) < 0) playVoice();
     else {
       can.remove();
       const container = document.getElementById('container');
       const video = container.insertAdjacentHTML(
-        "afterbegin",
+        'afterbegin',
         '<video src="celebration.mov" autoplay class="mov"></video>'
-        );
-      
+      );
     }
   }
 }
 
 function checkMove(mx, my, ntetro) {
-  if (ntetro == undefined)
-    ntetro = tetro;
+  if (ntetro == undefined) ntetro = tetro;
   for (let y = 0; y < tetro_size; y++) {
     for (let x = 0; x < tetro_size; x++) {
       if (ntetro[y][x]) {
-        let nx = tetro_x + mx + x, ny = tetro_y + my + y;
-        if (nx < 0 ||
-          ny >= field_row ||
-          nx >= field_col ||
-          field[ny][nx]) {
+        let nx = tetro_x + mx + x,
+          ny = tetro_y + my + y;
+        if (nx < 0 || ny >= field_row || nx >= field_col || field[ny][nx]) {
           return false;
         }
       }
@@ -281,12 +273,11 @@ function onClearInterval() {
 }
 
 function onSetInterval() {
-  interval = setInterval(dropTetro, game_speed - speed)
+  interval = setInterval(dropTetro, game_speed - speed);
 }
 
 function dropTetro() {
-  if (over)
-    return;
+  if (over) return;
   bgm.play();
   bgm.loop = true;
   if (checkMove(0, 1)) tetro_y++;
@@ -303,20 +294,14 @@ function dropTetro() {
 
 function pauseScreen() {
   const container = document.getElementById('container');
-  container.insertAdjacentHTML(
-    'beforeend',
-    '<div class="pause-screen" id="pause-screen"></div>'
-    )
-  container.insertAdjacentHTML(
-    'beforeend',
-    '<i class="fa-regular fa-circle-pause flash" id="flash-icon"></i>'
-  )
+  container.insertAdjacentHTML('beforeend', '<div class="pause-screen" id="pause-screen"></div>');
+  container.insertAdjacentHTML('beforeend', '<i class="fa-regular fa-circle-pause flash" id="flash-icon"></i>');
 }
 
 pause.onclick = () => {
   if (over) return;
-  let ps_btn = document.getElementById('ps-btn')
-  if(playFlag) {
+  let ps_btn = document.getElementById('ps-btn');
+  if (playFlag) {
     onClearInterval();
     bgm.pause();
     pauseScreen();
@@ -334,7 +319,7 @@ pause.onclick = () => {
 
 reload.onclick = () => {
   location.reload();
-}
+};
 
 function checkLine() {
   let linec = 0;
@@ -358,30 +343,25 @@ function checkLine() {
   if (linec) {
     se2.play();
     lines += linec;
-    score += 100 * (2 ** (linec - 1));
-    if (speed < game_speed - 10)
-      speed += 10;
+    score += 100 * 2 ** (linec - 1);
+    if (speed < game_speed - 10) speed += 10;
   }
 }
 
 document.onkeydown = function (e) {
-  if (over)
-    return;
+  if (over) return;
   switch (e.code) {
     case 'ArrowUp':
       //if (checkMove(0, -1)) tetro_y--;
       break;
     case 'ArrowDown':
-      while (checkMove(0, 1))
-        tetro_y++;
+      while (checkMove(0, 1)) tetro_y++;
       break;
     case 'ArrowRight':
-      if (checkMove(1, 0))
-        tetro_x++;
+      if (checkMove(1, 0)) tetro_x++;
       break;
     case 'ArrowLeft':
-      if (checkMove(-1, 0))
-        tetro_x--;
+      if (checkMove(-1, 0)) tetro_x--;
       break;
     case 'Space':
       let ntetro = rotate();
@@ -393,4 +373,4 @@ document.onkeydown = function (e) {
       break;
   }
   drawAll();
-}
+};
