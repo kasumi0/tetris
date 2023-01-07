@@ -49,11 +49,12 @@ ul li i:hover {
   transform: translate(-50%, -50%);
   color: white;
   -webkit-animation: flash 3s ease infinite;
-          animation: flash 3s ease infinite;
+  animation: flash 3s ease infinite;
 }
 
 @-webkit-keyframes flash {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -62,7 +63,8 @@ ul li i:hover {
 }
 
 @keyframes flash {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -73,8 +75,8 @@ ul li i:hover {
   width: 640px;
   height: 640px;
   -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   -o-object-position: center 40%;
-     object-position: center 40%;
+  object-position: center 40%;
   border: 4px solid #666;
 }

@@ -300,21 +300,18 @@ function pauseScreen() {
 
 pause.onclick = () => {
   if (over) return;
-  let ps_btn = document.getElementById('ps-btn');
+  const ps_btn = document.getElementById('ps-btn');
+  onClearInterval();
   if (playFlag) {
-    onClearInterval();
     bgm.pause();
     pauseScreen();
-    ps_btn.classList.replace('fa-circle-pause', 'fa-circle-play');
-    playFlag = false;
   } else {
-    onClearInterval();
     onSetInterval();
     document.getElementById('pause-screen').remove();
     document.getElementById('flash-icon').remove();
-    ps_btn.classList.replace('fa-circle-play', 'fa-circle-pause');
-    playFlag = true;
   }
+  ps_btn.classList.replace('fa-circle-pause', playFlag ? 'fa-circle-play' : 'fa-circle-pause');
+  playFlag = !playFlag;
 };
 
 reload.onclick = () => {
