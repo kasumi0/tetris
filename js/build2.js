@@ -310,7 +310,10 @@ pause.onclick = () => {
     document.getElementById('pause-screen').remove();
     document.getElementById('flash-icon').remove();
   }
-  ps_btn.classList.replace('fa-circle-pause', playFlag ? 'fa-circle-play' : 'fa-circle-pause');
+  ps_btn.classList.replace(
+    playFlag ? 'fa-circle-pause' : 'fa-circle-play',
+    playFlag ? 'fa-circle-play' : 'fa-circle-pause'
+  );
   playFlag = !playFlag;
 };
 
