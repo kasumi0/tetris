@@ -6,10 +6,10 @@ const field_col = 10,
   tetro_size = 4;
 let game_speed = 700,
   speed = 100;
-let can = document.getElementById('can'),
+const can = document.getElementById('can'),
   con = can.getContext('2d');
-let pause = document.getElementById('pause');
-let reload = document.getElementById('reload');
+const tgl_btn = document.getElementById('tgl-btn');
+const reload = document.getElementById('reload');
 let interval;
 let playFlag = true;
 
@@ -112,8 +112,6 @@ function init() {
   tetro_n = Math.floor(Math.random() * (tetro_types.length - 1)) + 1;
   setTetro();
   drawAll();
-  onClearInterval();
-  onSetInterval();
 }
 
 function setTetro() {
@@ -180,25 +178,25 @@ function drawInfo() {
   let w;
   con.fillStyle = 'white';
   let str = 'NEXT';
-  con.font = '40px "Turret Road light"';
+  con.font = '40px "Turret Road", cursive';
   con.fillText(str, 410, 90);
 
   str = 'SCORE';
-  con.font = '40px "Turret Road light"';
+  con.font = '40px "Turret Road", cursive';
   con.fillText(str, 410, 285);
   str = `${score}`;
   w = con.measureText(str).width;
   con.fillText(str, 560 - w, 330);
 
   str = 'LINES';
-  con.font = '40px "Turret Road light"';
+  con.font = '40px "Turret Road", cursive';
   con.fillText(str, 410, 405);
   str = `${lines}`;
   w = con.measureText(str).width;
   con.fillText(str, 560 - w, 450);
 
   str = 'LEVEL';
-  con.font = '40px "Turret Road light"';
+  con.font = '40px "Turret Road", cursive';
   con.fillText(str, 410, 525);
   lv = getVoiceVolumeByScore(score) + 1;
   if (lv > max_lv + 1) str = 'Excellent!!';
@@ -208,7 +206,7 @@ function drawInfo() {
 
   if (over) {
     str = 'GAME OVER';
-    con.font = "50px 'Turret Road medium'";
+    con.font = '50px "Turret Road", cursive';
     w = con.measureText(str).width;
     let x = screen_w / 2 - w / 2;
     let y = screen_h / 2 - 20;
@@ -222,10 +220,7 @@ function drawInfo() {
     else {
       can.remove();
       const container = document.getElementById('container');
-      const video = container.insertAdjacentHTML(
-        'afterbegin',
-        '<video src="celebration.mov" autoplay class="mov"></video>'
-      );
+      container.insertAdjacentHTML('afterbegin', '<video src="celebration.mov" autoplay class="mov"></video>');
     }
   }
 }
@@ -298,22 +293,27 @@ function pauseScreen() {
   container.insertAdjacentHTML('beforeend', '<i class="fa-regular fa-circle-pause flash" id="flash-icon"></i>');
 }
 
-pause.onclick = () => {
+tgl_btn.onclick = () => {
   if (over) return;
-  const ps_btn = document.getElementById('ps-btn');
   onClearInterval();
+  tgl_btn.classList.replace(
+    playFlag ? 'fa-circle-play' : 'fa-circle-pause',
+    playFlag ? 'fa-circle-pause' : 'fa-circle-play'
+  );
   if (playFlag) {
+    onSetInterval();
+    const ps_screen = document.getElementById('pause-screen');
+    const f_icon = document.getElementById('flash-icon');
+    if (!ps_screen) {
+      playFlag = !playFlag;
+      return;
+    }
+    ps_screen.remove();
+    f_icon.remove();
+  } else {
     bgm.pause();
     pauseScreen();
-  } else {
-    onSetInterval();
-    document.getElementById('pause-screen').remove();
-    document.getElementById('flash-icon').remove();
   }
-  ps_btn.classList.replace(
-    playFlag ? 'fa-circle-pause' : 'fa-circle-play',
-    playFlag ? 'fa-circle-play' : 'fa-circle-pause'
-  );
   playFlag = !playFlag;
 };
 

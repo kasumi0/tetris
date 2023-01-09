@@ -33,8 +33,8 @@ ul li i:hover {
 }
 
 .pause-screen {
-  width: 640px;
-  height: 640px;
+  width: 648px;
+  height: 648px;
   position: absolute;
   top: 0;
   left: 0;
@@ -53,18 +53,15 @@ ul li i:hover {
 }
 
 @-webkit-keyframes flash {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 1;
   }
   50% {
     opacity: 0;
   }
 }
-
 @keyframes flash {
-  0%,
-  100% {
+  0%, 100% {
     opacity: 1;
   }
   50% {
